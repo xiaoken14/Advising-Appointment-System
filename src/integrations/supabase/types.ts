@@ -14,16 +14,314 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      advisor_availability: {
+        Row: {
+          advisor_id: string
+          created_at: string
+          day_of_week: number
+          end_time: string
+          id: string
+          is_active: boolean
+          slot_duration_minutes: number
+          start_time: string
+          updated_at: string
+        }
+        Insert: {
+          advisor_id: string
+          created_at?: string
+          day_of_week: number
+          end_time: string
+          id?: string
+          is_active?: boolean
+          slot_duration_minutes?: number
+          start_time: string
+          updated_at?: string
+        }
+        Update: {
+          advisor_id?: string
+          created_at?: string
+          day_of_week?: number
+          end_time?: string
+          id?: string
+          is_active?: boolean
+          slot_duration_minutes?: number
+          start_time?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      appointments: {
+        Row: {
+          advisor_id: string
+          appointment_date: string
+          created_at: string
+          end_time: string
+          id: string
+          reason: string | null
+          start_time: string
+          status: Database["public"]["Enums"]["appointment_status"]
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          advisor_id: string
+          appointment_date: string
+          created_at?: string
+          end_time: string
+          id?: string
+          reason?: string | null
+          start_time: string
+          status?: Database["public"]["Enums"]["appointment_status"]
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          advisor_id?: string
+          appointment_date?: string
+          created_at?: string
+          end_time?: string
+          id?: string
+          reason?: string | null
+          start_time?: string
+          status?: Database["public"]["Enums"]["appointment_status"]
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      case_notes: {
+        Row: {
+          advisor_id: string
+          appointment_id: string | null
+          created_at: string
+          id: string
+          is_private: boolean
+          notes: string
+          student_id: string
+          updated_at: string
+          walk_in_id: string | null
+        }
+        Insert: {
+          advisor_id: string
+          appointment_id?: string | null
+          created_at?: string
+          id?: string
+          is_private?: boolean
+          notes?: string
+          student_id: string
+          updated_at?: string
+          walk_in_id?: string | null
+        }
+        Update: {
+          advisor_id?: string
+          appointment_id?: string | null
+          created_at?: string
+          id?: string
+          is_private?: boolean
+          notes?: string
+          student_id?: string
+          updated_at?: string
+          walk_in_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_notes_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "case_notes_walk_in_id_fkey"
+            columns: ["walk_in_id"]
+            isOneToOne: false
+            referencedRelation: "walk_in_queue"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          id: string
+          is_read: boolean
+          message: string
+          related_id: string | null
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message?: string
+          related_id?: string | null
+          title: string
+          type: Database["public"]["Enums"]["notification_type"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message?: string
+          related_id?: string | null
+          title?: string
+          type?: Database["public"]["Enums"]["notification_type"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          department: string | null
+          email: string
+          full_name: string
+          id: string
+          phone: string | null
+          student_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          department?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          student_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          department?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          student_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      referrals: {
+        Row: {
+          created_at: string
+          from_advisor_id: string
+          id: string
+          reason: string
+          status: Database["public"]["Enums"]["referral_status"]
+          student_id: string
+          to_advisor_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          from_advisor_id: string
+          id?: string
+          reason?: string
+          status?: Database["public"]["Enums"]["referral_status"]
+          student_id: string
+          to_advisor_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          from_advisor_id?: string
+          id?: string
+          reason?: string
+          status?: Database["public"]["Enums"]["referral_status"]
+          student_id?: string
+          to_advisor_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      walk_in_queue: {
+        Row: {
+          advisor_id: string
+          created_at: string
+          id: string
+          queue_number: number
+          reason: string | null
+          status: Database["public"]["Enums"]["queue_status"]
+          student_id: string
+          updated_at: string
+        }
+        Insert: {
+          advisor_id: string
+          created_at?: string
+          id?: string
+          queue_number?: number
+          reason?: string | null
+          status?: Database["public"]["Enums"]["queue_status"]
+          student_id: string
+          updated_at?: string
+        }
+        Update: {
+          advisor_id?: string
+          created_at?: string
+          id?: string
+          queue_number?: number
+          reason?: string | null
+          status?: Database["public"]["Enums"]["queue_status"]
+          student_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "student" | "advisor"
+      appointment_status: "booked" | "completed" | "incomplete" | "cancelled"
+      notification_type:
+        | "appointment_booked"
+        | "referral_received"
+        | "appointment_reminder"
+        | "queue_update"
+      queue_status: "waiting" | "serving" | "done"
+      referral_status: "pending" | "accepted" | "declined"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +448,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["student", "advisor"],
+      appointment_status: ["booked", "completed", "incomplete", "cancelled"],
+      notification_type: [
+        "appointment_booked",
+        "referral_received",
+        "appointment_reminder",
+        "queue_update",
+      ],
+      queue_status: ["waiting", "serving", "done"],
+      referral_status: ["pending", "accepted", "declined"],
+    },
   },
 } as const
